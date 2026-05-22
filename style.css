@@ -1,140 +1,186 @@
 /* ========================= */
-/* ARQUIVO: style.css */
+/* RESET */
 /* ========================= */
 
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Arial;
 }
 
 body{
-  background:#111827;
-  color:white;
-  padding:15px;
+  background:#f3f4f6;
+  font-family:Arial, sans-serif;
+  padding:12px;
+  color:#111827;
 }
 
-.container{
-  max-width:1400px;
-  margin:auto;
-}
+/* ========================= */
+/* TOPO */
+/* ========================= */
 
 .topo{
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:12px;
 }
 
 .topo h1{
-  font-size:32px;
+  display:none;
 }
 
 .topo p{
-  color:#9ca3af;
-  margin-top:5px;
+  font-size:20px;
+  font-weight:700;
 }
+
+/* ========================= */
+/* GRID */
+/* ========================= */
 
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:15px;
+  gap:12px;
 }
 
+/* ========================= */
+/* CARD */
+/* ========================= */
+
 .card{
-  background:#1f2937;
+  background:#fff;
   border-radius:14px;
-  padding:18px;
+  padding:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 
 .card h2{
-  margin-bottom:18px;
-  font-size:20px;
+  font-size:16px;
+  margin-bottom:10px;
 }
 
+/* ========================= */
+/* CAMPOS */
+/* ========================= */
+
 .campo{
-  margin-bottom:15px;
+  margin-bottom:10px;
 }
 
 .campo label{
   display:block;
-  margin-bottom:6px;
-  color:#d1d5db;
-  font-size:14px;
+  font-size:12px;
+  margin-bottom:4px;
 }
 
 .campo input,
 .campo select{
   width:100%;
-  padding:12px;
-  border:none;
+  height:48px;
+  border:1px solid #d1d5db;
   border-radius:10px;
-  background:#374151;
-  color:white;
+  padding:10px;
   font-size:16px;
 }
 
+/* ========================= */
+/* RESULTADOS */
+/* ========================= */
+
 .resultado{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  background:#111827;
-
-  padding:12px;
+  background:#f9fafb;
   border-radius:10px;
-  margin-top:10px;
+  padding:10px;
+  margin-top:8px;
 }
 
 .resultado span{
-  color:#d1d5db;
+  display:block;
+  font-size:12px;
+  margin-bottom:2px;
 }
 
 .resultado strong{
   font-size:18px;
 }
 
+/* ========================= */
+/* COMISSAO */
+/* ========================= */
+
 .comissao{
-  margin-top:15px;
+  margin-top:12px;
+  text-align:center;
+  background:#111827;
+  color:#fff;
+  padding:12px;
+  border-radius:12px;
 }
 
-.destaque{
-  background:#2563eb;
+.comissao strong{
+  font-size:22px;
 }
+
+/* ========================= */
+/* BOTOES */
+/* ========================= */
 
 .botoes{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:1fr 1fr;
   gap:10px;
-
-  margin-top:20px;
+  margin-top:12px;
 }
 
 .botoes button{
-  padding:14px;
+  height:48px;
   border:none;
-  border-radius:12px;
-
-  background:#2563eb;
-  color:white;
-
-  font-size:15px;
-  font-weight:bold;
-
-  cursor:pointer;
+  border-radius:10px;
+  background:#111827;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
 }
 
-.botoes button:hover{
-  opacity:0.9;
-}
+/* ========================= */
+/* MOBILE */
+/* ========================= */
 
 @media(max-width:900px){
 
+  body{
+    padding:8px;
+  }
+
   .grid{
     grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .card{
+    padding:10px;
+  }
+
+  .campo{
+    margin-bottom:8px;
+  }
+
+  .campo input,
+  .campo select{
+    height:52px;
+    font-size:16px;
+  }
+
+  .resultado{
+    padding:8px;
+  }
+
+  .resultado strong{
+    font-size:16px;
   }
 
   .botoes{
-    grid-template-columns:1fr 1fr;
+    gap:8px;
   }
 
 }
