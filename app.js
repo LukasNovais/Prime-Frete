@@ -1,217 +1,419 @@
 /* ========================= */
-/* RESET */
+/* URL PLANILHA */
 /* ========================= */
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+const urlPlanilha =
+'https://opensheet.elk.sh/1eZH_9cMXeTlo5IJ9ybsC1l-gip-XGlaauQ2JNQy7DPA/PRIME-FRETE';
+
+/* ========================= */
+/* MOEDA */
+/* ========================= */
+
+function moeda(valor){
+
+  return valor.toLocaleString('pt-BR',{
+
+    style:'currency',
+    currency:'BRL'
+
+  });
+
 }
 
 /* ========================= */
-/* BODY */
+/* CONVERTER NUMERO */
 /* ========================= */
 
-body{
-  background:#07141f;
-  color:#ffffff;
-  font-family:Arial,sans-serif;
-  padding:8px;
+function numero(valor){
+
+  if(!valor) return 0;
+
+  return parseFloat(
+
+    String(valor)
+      .replace(',','.')
+      .replace('R$','')
+      .trim()
+
+  ) || 0;
+
 }
 
 /* ========================= */
-/* TOPO */
+/* ARREDONDAR CENTENA */
+/* SEMPRE PARA CIMA */
 /* ========================= */
 
-.topo{
-  text-align:center;
-  margin-bottom:8px;
-}
+function arredondarCentena(valor){
 
-.topo p{
-  color:#f5d27a;
-  font-size:18px;
-  font-weight:700;
+  return Math.ceil(valor / 100) * 100;
+
 }
 
 /* ========================= */
-/* GRID */
+/* CARREGAR PLANILHA */
 /* ========================= */
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:8px;
+async function carregarPlanilha(){
+
+  try{
+
+    const resposta =
+      await fetch(urlPlanilha);
+
+    const dados =
+      await resposta.json();
+
+    if(dados.length > 0){
+
+      const linha = dados[0];
+
+      const dieselMotorista =
+        numero(
+
+          linha.dieselMotorista ||
+          linha.DIESELMOTORISTA ||
+          linha.motorista ||
+          linha.MOTORISTA
+
+        );
+
+      const dieselCliente =
+        numero(
+
+          linha.dieselCliente ||
+          linha.DIESELCLIENTE ||
+          linha.cliente ||
+          linha.CLIENTE
+
+        );
+
+      document.getElementById('dieselMotorista').value =
+        dieselMotorista.toFixed(2);
+
+      document.getElementById('dieselCliente').value =
+        dieselCliente.toFixed(2);
+
+      calcularTudo();
+
+    }
+
+  }catch(erro){
+
+    console.log(erro);
+
+  }
+
 }
 
 /* ========================= */
-/* CARD */
+/* CALCULAR */
 /* ========================= */
 
-.card{
-  background:#0d1f2d;
-  border-radius:12px;
-  padding:10px;
-  border:1px solid #173041;
+function calcularTudo(){
+
+  const km =
+    numero(
+      document.getElementById('kmTotal').value
+    );
+
+  const media =
+    numero(
+      document.getElementById('tipoVeiculo').value
+    );
+
+  const dieselMotorista =
+    numero(
+      document.getElementById('dieselMotorista').value
+    );
+
+  const dieselCliente =
+    numero(
+      document.getElementById('dieselCliente').value
+    );
+
+  const litros =
+    media > 0
+      ? km / media
+      : 0;
+
+  /* ========================= */
+  /* MOTORISTA */
+  /* ========================= */
+
+  const custoMotorista =
+    litros * dieselMotorista;
+
+  let freteMotorista =
+    custoMotorista / 0.35;
+
+  freteMotorista =
+    arredondarCentena(
+      freteMotorista
+    );
+
+  const valorKmMotorista =
+    km > 0
+      ? freteMotorista / km
+      : 0;
+
+  /* ========================= */
+  /* CLIENTE */
+  /* ========================= */
+
+  const custoCliente =
+    litros * dieselCliente;
+
+  let freteCliente =
+    custoCliente / 0.33;
+
+  freteCliente =
+    arredondarCentena(
+      freteCliente
+    );
+
+  const valorKmCliente =
+    km > 0
+      ? freteCliente / km
+      : 0;
+
+  /* ========================= */
+  /* RESULTADOS */
+  /* ========================= */
+
+  document.getElementById('valorKmMotorista').value =
+    valorKmMotorista.toFixed(2);
+
+  document.getElementById('valorKmCliente').value =
+    valorKmCliente.toFixed(2);
+
+  document.getElementById('freteMotorista').innerText =
+    moeda(freteMotorista);
+
+  document.getElementById('freteCliente').innerText =
+    moeda(freteCliente);
+
+  document.getElementById('custoMotorista').innerText =
+    moeda(custoMotorista);
+
+  document.getElementById('custoCliente').innerText =
+    moeda(custoCliente);
+
+  const comissao =
+    freteCliente - freteMotorista;
+
+  document.getElementById('comissaoEmpresa').innerText =
+    moeda(comissao);
+
 }
 
 /* ========================= */
-/* LINHAS */
+/* SALVAR */
 /* ========================= */
 
-.linha2{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+function salvarCotacao(){
+
+  const historico =
+    JSON.parse(
+      localStorage.getItem('historicoPrime')
+    ) || [];
+
+  historico.unshift({
+
+    data:
+      new Date().toLocaleString(),
+
+    km:
+      document.getElementById('kmTotal').value,
+
+    motorista:
+      document.getElementById('freteMotorista').innerText,
+
+    cliente:
+      document.getElementById('freteCliente').innerText
+
+  });
+
+  localStorage.setItem(
+
+    'historicoPrime',
+
+    JSON.stringify(historico)
+
+  );
+
+  carregarHistorico();
+
 }
 
 /* ========================= */
-/* TITULOS */
+/* EXCLUIR ITEM */
 /* ========================= */
 
-.tituloCard{
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:8px;
-  color:#f5d27a;
-}
+function excluirHistorico(index){
 
-/* ========================= */
-/* CAMPOS */
-/* ========================= */
+  const historico =
+    JSON.parse(
+      localStorage.getItem('historicoPrime')
+    ) || [];
 
-.campo{
-  margin-bottom:8px;
-}
+  historico.splice(index,1);
 
-.campo label{
-  display:block;
-  font-size:10px;
-  margin-bottom:3px;
-  color:#8da5b8;
-}
+  localStorage.setItem(
 
-.campo input,
-.campo select{
-  width:100%;
-  height:42px;
-  background:#132838;
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  padding:8px;
-  font-size:14px;
-}
+    'historicoPrime',
 
-/* ========================= */
-/* RESULTADO */
-/* ========================= */
+    JSON.stringify(historico)
 
-.resultado{
-  background:#132838;
-  border-radius:8px;
-  padding:8px;
-  margin-bottom:8px;
-}
+  );
 
-.resultado span{
-  display:block;
-  font-size:10px;
-  color:#8da5b8;
-  margin-bottom:2px;
-}
+  carregarHistorico();
 
-.resultado strong{
-  font-size:17px;
-  color:#ffffff;
-}
-
-/* ========================= */
-/* COMISSAO */
-/* ========================= */
-
-.comissao{
-  margin-top:10px;
-  background:#0d1f2d;
-  border:1px solid #f5d27a;
-  border-radius:12px;
-  padding:12px;
-  text-align:center;
-}
-
-.comissao span{
-  display:block;
-  font-size:11px;
-  color:#f5d27a;
-}
-
-.comissao strong{
-  font-size:24px;
-  color:#ffffff;
-}
-
-/* ========================= */
-/* BOTOES */
-/* ========================= */
-
-.botaoCompartilhar,
-.acoes button{
-  width:100%;
-  height:42px;
-  border:none;
-  border-radius:8px;
-  background:#c89b3c;
-  color:#07141f;
-  font-weight:700;
-  margin-top:6px;
 }
 
 /* ========================= */
 /* HISTORICO */
 /* ========================= */
 
-.historico{
-  margin-top:10px;
-}
+function carregarHistorico(){
 
-.historico h3{
-  color:#f5d27a;
-  margin-bottom:8px;
-  font-size:14px;
-}
+  const lista =
+    document.getElementById('historicoLista');
 
-.itemHistorico{
-  background:#0d1f2d;
-  border-radius:10px;
-  padding:10px;
-  margin-bottom:8px;
-  border:1px solid #173041;
+  lista.innerHTML = '';
+
+  const historico =
+    JSON.parse(
+      localStorage.getItem('historicoPrime')
+    ) || [];
+
+  historico.forEach((item,index)=>{
+
+    lista.innerHTML += `
+
+      <div class="itemHistorico">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          gap:10px;
+        ">
+
+          <div>
+
+            <strong>${item.data}</strong><br>
+
+            KM: ${item.km}<br>
+
+            Motorista:
+            ${item.motorista}<br>
+
+            Cliente:
+            ${item.cliente}
+
+          </div>
+
+          <button
+
+            onclick="excluirHistorico(${index})"
+
+            style="
+              width:28px;
+              height:28px;
+              border:none;
+              border-radius:6px;
+              background:#c62828;
+              color:#fff;
+              font-weight:bold;
+            "
+
+          >
+
+            X
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
 }
 
 /* ========================= */
-/* MOBILE */
+/* COMPARTILHAR */
 /* ========================= */
 
-@media(max-width:900px){
+function compartilharMotorista(){
 
-  .grid{
-    grid-template-columns:1fr 1fr;
-    gap:6px;
+  const texto =
+`🚚 FRETE MOTORISTA
+
+KM: ${document.getElementById('kmTotal').value}
+
+Valor:
+${document.getElementById('freteMotorista').innerText}`;
+
+  if(navigator.share){
+
+    navigator.share({
+
+      text:texto
+
+    });
+
   }
 
-  .linha2{
-    gap:6px;
+}
+
+function compartilharCliente(){
+
+  const texto =
+`💰 COTAÇÃO FRETE
+
+KM: ${document.getElementById('kmTotal').value}
+
+Valor:
+${document.getElementById('freteCliente').innerText}`;
+
+  if(navigator.share){
+
+    navigator.share({
+
+      text:texto
+
+    });
+
   }
 
-  .campo input,
-  .campo select{
-    height:44px;
-    font-size:13px;
-  }
+}
 
-  .resultado strong{
-    font-size:15px;
-  }
+/* ========================= */
+/* EVENTOS */
+/* ========================= */
+
+window.onload = function(){
+
+  const campos =
+    document.querySelectorAll('input, select');
+
+  campos.forEach(campo=>{
+
+    campo.addEventListener('input',()=>{
+
+      calcularTudo();
+
+    });
+
+  });
+
+  carregarHistorico();
+
+  carregarPlanilha();
+
+  calcularTudo();
 
 }
