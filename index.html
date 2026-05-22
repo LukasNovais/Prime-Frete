@@ -16,19 +16,19 @@
 
 <body>
 
+  <!-- TOPO -->
+
   <header class="topo">
 
     <p>Calculadora de Frete</p>
 
   </header>
 
-  <div class="grid">
+  <!-- DADOS PRINCIPAIS -->
 
-    <!-- DADOS -->
+  <div class="card">
 
-    <div class="card">
-
-      <h2>⚙️ Dados Frete</h2>
+    <div class="linha2">
 
       <div class="campo">
 
@@ -41,7 +41,7 @@
 
       <div class="campo">
 
-        <label>TIPO VEÍCULO</label>
+        <label>VEÍCULO</label>
 
         <select id="tipoVeiculo">
 
@@ -63,11 +63,21 @@
 
     </div>
 
+  </div>
+
+  <!-- GRID -->
+
+  <div class="grid">
+
     <!-- MOTORISTA -->
 
-    <div class="card">
+    <div class="card motorista">
 
-      <h2>🚚 Motorista</h2>
+      <div class="tituloCard">
+
+        🚚 MOTORISTA
+
+      </div>
 
       <div class="campo">
 
@@ -109,13 +119,25 @@
 
       </div>
 
+      <button
+        class="botaoCompartilhar"
+        onclick="compartilharMotorista()">
+
+        COMPARTILHAR
+
+      </button>
+
     </div>
 
     <!-- CLIENTE -->
 
-    <div class="card">
+    <div class="card cliente">
 
-      <h2>💰 Cliente</h2>
+      <div class="tituloCard">
+
+        💰 CLIENTE
+
+      </div>
 
       <div class="campo">
 
@@ -157,6 +179,14 @@
 
       </div>
 
+      <button
+        class="botaoCompartilhar"
+        onclick="compartilharCliente()">
+
+        COMPARTILHAR
+
+      </button>
+
     </div>
 
   </div>
@@ -173,20 +203,14 @@
 
   </div>
 
-  <!-- BOTÕES -->
+  <!-- AÇÕES -->
 
-  <div class="botoes">
-
-    <button onclick="compartilharMotorista()">
-      MOTORISTA
-    </button>
-
-    <button onclick="compartilharCliente()">
-      CLIENTE
-    </button>
+  <div class="acoes">
 
     <button onclick="salvarCotacao()">
-      SALVAR
+
+      SALVAR COTAÇÃO
+
     </button>
 
   </div>
