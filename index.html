@@ -1,190 +1,236 @@
-<!-- ========================= -->
-<!-- ARQUIVO: index.html -->
-<!-- ========================= -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Sistema Prime - Frete</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Sistema Prime</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#111827">
 </head>
+
 <body>
 
-  <div class="container">
+  <header class="topo">
 
-    <header class="topo">
-      <h1>Sistema Prime</h1>
-      <p>Calculadora Profissional de Frete</p>
-    </header>
+    <p>Calculadora de Frete</p>
 
-    <main class="grid">
+  </header>
 
-      <!-- ========================= -->
-      <!-- TABELA MOTORISTA -->
-      <!-- ========================= -->
+  <div class="grid">
 
-      <section class="card">
-        <h2>🚚 FRETE MOTORISTA</h2>
+    <!-- MOTORISTA -->
 
-        <div class="campo">
-          <label>Total KM (ida e volta)</label>
-          <input type="number" id="kmMotorista" placeholder="Ex: 850">
-        </div>
+    <div class="card">
 
-        <div class="campo">
-          <label>Valor KM</label>
-          <input type="number" id="valorKmMotorista" placeholder="R$">
-        </div>
+      <h2>🚚 Motorista</h2>
 
-        <div class="campo">
-          <label>Tipo Veículo</label>
+      <div class="campo">
 
-          <select id="veiculoMotorista">
-            <option value="5">TOCO (5.0)</option>
-            <option value="3.5">TRUCK (3.5)</option>
-            <option value="3.5">BITRUCK (3.5)</option>
-            <option value="3">CARRETA (3.0)</option>
-            <option value="2.3">BITREM (2.3)</option>
-            <option value="2">RODOTREM (2.0)</option>
-          </select>
-        </div>
+        <label>KM TOTAL</label>
 
-        <div class="campo">
-          <label>Valor Litro Diesel</label>
-          <input type="number" id="dieselMotorista" placeholder="R$">
-        </div>
+        <input type="number"
+               id="kmMotorista">
 
-        <!-- RESULTADOS -->
-
-        <div class="resultado">
-          <span>Frete Bruto</span>
-          <strong id="freteMotorista">R$ 0,00</strong>
-        </div>
-
-        <div class="resultado">
-          <span>Custo Diesel</span>
-          <strong id="custoMotorista">R$ 0,00</strong>
-        </div>
-
-        <div class="resultado">
-          <span>Qtd Litros</span>
-          <strong id="litrosMotorista">0</strong>
-        </div>
-
-        <div class="resultado">
-          <span>% Custo Frete</span>
-          <strong id="percentualMotorista">0%</strong>
-        </div>
-
-      </section>
-
-      <!-- ========================= -->
-      <!-- TABELA CLIENTE -->
-      <!-- ========================= -->
-
-      <section class="card">
-        <h2>💰 FRETE CLIENTE</h2>
-
-        <div class="campo">
-          <label>Total KM (ida e volta)</label>
-          <input type="number" id="kmCliente" placeholder="Ex: 850">
-        </div>
-
-        <div class="campo">
-          <label>Valor KM</label>
-          <input type="number" id="valorKmCliente" placeholder="R$">
-        </div>
-
-        <div class="campo">
-          <label>Tipo Veículo</label>
-
-          <select id="veiculoCliente">
-            <option value="5">TOCO (5.0)</option>
-            <option value="3.5">TRUCK (3.5)</option>
-            <option value="3.5">BITRUCK (3.5)</option>
-            <option value="3">CARRETA (3.0)</option>
-            <option value="2.3">BITREM (2.3)</option>
-            <option value="2">RODOTREM (2.0)</option>
-          </select>
-        </div>
-
-        <div class="campo">
-          <label>Valor Litro Diesel</label>
-          <input type="number" id="dieselCliente" placeholder="R$">
-        </div>
-
-        <!-- RESULTADOS -->
-
-        <div class="resultado">
-          <span>Frete Bruto</span>
-          <strong id="freteCliente">R$ 0,00</strong>
-        </div>
-
-        <div class="resultado">
-          <span>Custo Diesel</span>
-          <strong id="custoCliente">R$ 0,00</strong>
-        </div>
-
-        <div class="resultado">
-          <span>Qtd Litros</span>
-          <strong id="litrosCliente">0</strong>
-        </div>
-
-        <div class="resultado">
-          <span>% Custo Frete</span>
-          <strong id="percentualCliente">0%</strong>
-        </div>
-
-      </section>
-
-    </main>
-
-    <!-- ========================= -->
-    <!-- COMISSÃO -->
-    <!-- ========================= -->
-
-    <section class="card comissao">
-
-      <h2>📊 COMISSÃO EMPRESA</h2>
-
-      <div class="resultado destaque">
-        <span>Diferença Cliente x Motorista</span>
-        <strong id="comissaoEmpresa">R$ 0,00</strong>
       </div>
 
-    </section>
+      <div class="campo">
 
-    <!-- ========================= -->
-    <!-- BOTÕES -->
-    <!-- ========================= -->
+        <label>TIPO VEÍCULO</label>
 
-    <div class="botoes">
+        <select id="veiculoMotorista">
 
-      <button onclick="limparCampos()">
-        LIMPAR
-      </button>
+          <option value="5">TOCO</option>
 
-      <button onclick="salvarCotacao()">
-        SALVAR
-      </button>
+          <option value="3.5">TRUCK</option>
 
-      <button onclick="enviarWhatsapp()">
-        WHATSAPP
-      </button>
+          <option value="3.4">BITRUCK</option>
+
+          <option value="3">CARRETA</option>
+
+          <option value="2.3">BITREM</option>
+
+          <option value="2">RODOTREM</option>
+
+        </select>
+
+      </div>
+
+      <div class="campo">
+
+        <label>DIESEL</label>
+
+        <input type="number"
+               id="dieselMotorista"
+               step="0.01">
+
+      </div>
+
+      <div class="campo">
+
+        <label>VALOR KM</label>
+
+        <input type="number"
+               id="valorKmMotorista"
+               readonly>
+
+      </div>
+
+      <div class="resultado">
+
+        <span>FRETE</span>
+
+        <strong id="freteMotorista">
+          R$ 0,00
+        </strong>
+
+      </div>
+
+      <div class="resultado">
+
+        <span>CUSTO DIESEL</span>
+
+        <strong id="custoMotorista">
+          R$ 0,00
+        </strong>
+
+      </div>
 
     </div>
+
+    <!-- CLIENTE -->
+
+    <div class="card">
+
+      <h2>💰 Cliente</h2>
+
+      <div class="campo">
+
+        <label>KM TOTAL</label>
+
+        <input type="number"
+               id="kmCliente"
+               readonly>
+
+      </div>
+
+      <div class="campo">
+
+        <label>TIPO VEÍCULO</label>
+
+        <select id="veiculoCliente">
+
+          <option value="5">TOCO</option>
+
+          <option value="3.5">TRUCK</option>
+
+          <option value="3.4">BITRUCK</option>
+
+          <option value="3">CARRETA</option>
+
+          <option value="2.3">BITREM</option>
+
+          <option value="2">RODOTREM</option>
+
+        </select>
+
+      </div>
+
+      <div class="campo">
+
+        <label>DIESEL</label>
+
+        <input type="number"
+               id="dieselCliente"
+               step="0.01">
+
+      </div>
+
+      <div class="campo">
+
+        <label>VALOR KM</label>
+
+        <input type="number"
+               id="valorKmCliente"
+               readonly>
+
+      </div>
+
+      <div class="resultado">
+
+        <span>FRETE</span>
+
+        <strong id="freteCliente">
+          R$ 0,00
+        </strong>
+
+      </div>
+
+      <div class="resultado">
+
+        <span>CUSTO DIESEL</span>
+
+        <strong id="custoCliente">
+          R$ 0,00
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- COMISSAO -->
+
+  <div class="comissao">
+
+    <span>COMISSÃO EMPRESA</span>
+
+    <strong id="comissaoEmpresa">
+      R$ 0,00
+    </strong>
+
+  </div>
+
+  <!-- BOTOES -->
+
+  <div class="botoes">
+
+    <button onclick="compartilharMotorista()">
+      MOTORISTA
+    </button>
+
+    <button onclick="compartilharCliente()">
+      CLIENTE
+    </button>
+
+    <button onclick="salvarCotacao()">
+      SALVAR
+    </button>
+
+    <button onclick="limparCampos()">
+      LIMPAR
+    </button>
+
+  </div>
+
+  <!-- HISTORICO -->
+
+  <div class="historico">
+
+    <h3>Histórico</h3>
+
+    <div id="historicoLista"></div>
 
   </div>
 
   <script src="app.js"></script>
 
 </body>
+
 </html>
