@@ -37,11 +37,10 @@ async function carregarPlanilha(){
     if(dados.length > 0){
 
       document.getElementById('dieselMotorista').value =
-        Number(dados[0].A2 || 0);
+  Number(dados[0].dieselMotorista || 0);
 
       document.getElementById('dieselCliente').value =
-        Number(dados[0].B2 || 0);
-
+  Number(dados[0].dieselCliente || 0);
       calcularTudo();
 
     }
