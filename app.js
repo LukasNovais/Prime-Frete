@@ -1,7 +1,3 @@
-/* ========================= */
-/* FORMATAR MOEDA */
-/* ========================= */
-
 function moeda(valor){
 
   return valor.toLocaleString('pt-BR',{
@@ -11,59 +7,7 @@ function moeda(valor){
 
 }
 
-/* ========================= */
-/* ARREDONDAR */
-/* ========================= */
-
-function arredondarBaixo(valor){
-
-  return Math.floor(valor);
-
-}
-
-function arredondarCima(valor){
-
-  return Math.ceil(valor);
-
-}
-
-/* ========================= */
-/* CALCULAR FRETE */
-/* ========================= */
-
-function calcularFrete(custoDiesel, percentual, tipo){
-
-  let frete = 0;
-
-  if(tipo === 'baixo'){
-
-    frete =
-      arredondarBaixo(
-        custoDiesel / percentual
-      );
-
-  }else{
-
-    frete =
-      arredondarCima(
-        custoDiesel / percentual
-      );
-
-  }
-
-  return frete;
-
-}
-
-/* ========================= */
-/* CALCULAR TUDO */
-/* ========================= */
-
 function calcularTudo(){
-
-  /* ========================= */
-  /* MOTORISTA */
-  /* ========================= */
 
   const km =
     Number(
@@ -85,37 +29,25 @@ function calcularTudo(){
       document.getElementById('dieselCliente').value
     );
 
-  /* ========================= */
-  /* COPIAR */
-  /* ========================= */
-
   document.getElementById('kmCliente').value =
     km;
 
   document.getElementById('veiculoCliente').selectedIndex =
     document.getElementById('veiculoMotorista').selectedIndex;
 
-  /* ========================= */
-  /* DIESEL */
-  /* ========================= */
-
   const litros =
     media > 0
       ? km / media
       : 0;
 
-  /* ========================= */
-  /* CUSTO MOTORISTA */
-  /* ========================= */
+  /* MOTORISTA */
 
   const custoMotorista =
     litros * dieselMotorista;
 
   const freteMotorista =
-    calcularFrete(
-      custoMotorista,
-      0.35,
-      'baixo'
+    Math.floor(
+      custoMotorista / 0.35
     );
 
   const valorKmMotorista =
@@ -123,18 +55,14 @@ function calcularTudo(){
       ? freteMotorista / km
       : 0;
 
-  /* ========================= */
-  /* CUSTO CLIENTE */
-  /* ========================= */
+  /* CLIENTE */
 
   const custoCliente =
     litros * dieselCliente;
 
   const freteCliente =
-    calcularFrete(
-      custoCliente,
-      0.33,
-      'cima'
+    Math.ceil(
+      custoCliente / 0.33
     );
 
   const valorKmCliente =
@@ -142,47 +70,25 @@ function calcularTudo(){
       ? freteCliente / km
       : 0;
 
-  /* ========================= */
-  /* RESULTADOS MOTORISTA */
-  /* ========================= */
+  /* RESULTADOS */
 
   document.getElementById('valorKmMotorista').value =
     valorKmMotorista.toFixed(2);
 
-  document.getElementById('freteMotorista').innerText =
-    moeda(freteMotorista);
-
-  document.getElementById('custoMotorista').innerText =
-    moeda(custoMotorista);
-
-  document.getElementById('litrosMotorista').innerText =
-    litros.toFixed(1) + ' L';
-
-  document.getElementById('percentualMotorista').innerText =
-    '35%';
-
-  /* ========================= */
-  /* RESULTADOS CLIENTE */
-  /* ========================= */
-
   document.getElementById('valorKmCliente').value =
     valorKmCliente.toFixed(2);
+
+  document.getElementById('freteMotorista').innerText =
+    moeda(freteMotorista);
 
   document.getElementById('freteCliente').innerText =
     moeda(freteCliente);
 
+  document.getElementById('custoMotorista').innerText =
+    moeda(custoMotorista);
+
   document.getElementById('custoCliente').innerText =
     moeda(custoCliente);
-
-  document.getElementById('litrosCliente').innerText =
-    litros.toFixed(1) + ' L';
-
-  document.getElementById('percentualCliente').innerText =
-    '33%';
-
-  /* ========================= */
-  /* COMISSAO */
-  /* ========================= */
 
   const comissao =
     freteCliente - freteMotorista;
@@ -191,10 +97,6 @@ function calcularTudo(){
     moeda(comissao);
 
 }
-
-/* ========================= */
-/* LIMPAR */
-/* ========================= */
 
 function limparCampos(){
 
@@ -210,10 +112,6 @@ function limparCampos(){
 
 }
 
-/* ========================= */
-/* SALVAR */
-/* ========================= */
-
 function salvarCotacao(){
 
   const historico =
@@ -221,7 +119,7 @@ function salvarCotacao(){
       localStorage.getItem('historicoPrime')
     ) || [];
 
-  historico.push({
+  historico.unshift({
 
     data:
       new Date().toLocaleString(),
@@ -242,39 +140,49 @@ function salvarCotacao(){
     JSON.stringify(historico)
   );
 
-  alert('Cotação salva');
+  carregarHistorico();
 
   limparCampos();
 
 }
 
-/* ========================= */
-/* COMPARTILHAR */
-/* ========================= */
+function carregarHistorico(){
 
-async function compartilharCliente(){
+  const lista =
+    document.getElementById('historicoLista');
 
-  const texto =
-`💰 COTAÇÃO FRETE
+  lista.innerHTML = '';
 
-KM: ${document.getElementById('kmCliente').value}
+  const historico =
+    JSON.parse(
+      localStorage.getItem('historicoPrime')
+    ) || [];
 
-Valor:
-${document.getElementById('freteCliente').innerText}`;
+  historico.forEach(item=>{
 
-  if(navigator.share){
+    lista.innerHTML += `
 
-    await navigator.share({
+      <div class="itemHistorico">
 
-      text:texto
+        <strong>${item.data}</strong><br>
 
-    });
+        KM: ${item.km}<br>
 
-  }
+        Motorista:
+        ${item.motorista}<br>
+
+        Cliente:
+        ${item.cliente}
+
+      </div>
+
+    `;
+
+  });
 
 }
 
-async function compartilharMotorista(){
+function compartilharMotorista(){
 
   const texto =
 `🚚 FRETE MOTORISTA
@@ -286,7 +194,7 @@ ${document.getElementById('freteMotorista').innerText}`;
 
   if(navigator.share){
 
-    await navigator.share({
+    navigator.share({
 
       text:texto
 
@@ -296,9 +204,27 @@ ${document.getElementById('freteMotorista').innerText}`;
 
 }
 
-/* ========================= */
-/* AUTO */
-/* ========================= */
+function compartilharCliente(){
+
+  const texto =
+`💰 COTAÇÃO FRETE
+
+KM: ${document.getElementById('kmCliente').value}
+
+Valor:
+${document.getElementById('freteCliente').innerText}`;
+
+  if(navigator.share){
+
+    navigator.share({
+
+      text:texto
+
+    });
+
+  }
+
+}
 
 window.onload = function(){
 
@@ -314,6 +240,8 @@ window.onload = function(){
     });
 
   });
+
+  carregarHistorico();
 
   calcularTudo();
 
