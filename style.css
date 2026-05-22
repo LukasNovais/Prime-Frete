@@ -8,11 +8,15 @@
   box-sizing:border-box;
 }
 
+/* ========================= */
+/* BODY */
+/* ========================= */
+
 body{
-  background:#f3f4f6;
   font-family:Arial, sans-serif;
-  padding:12px;
+  background:#f3f4f6;
   color:#111827;
+  padding:10px;
 }
 
 /* ========================= */
@@ -21,7 +25,7 @@ body{
 
 .topo{
   text-align:center;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .topo h1{
@@ -29,7 +33,7 @@ body{
 }
 
 .topo p{
-  font-size:20px;
+  font-size:18px;
   font-weight:700;
 }
 
@@ -40,7 +44,7 @@ body{
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:10px;
 }
 
 /* ========================= */
@@ -48,15 +52,15 @@ body{
 /* ========================= */
 
 .card{
-  background:#fff;
-  border-radius:14px;
-  padding:14px;
+  background:#ffffff;
+  border-radius:12px;
+  padding:10px;
   box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 
 .card h2{
-  font-size:16px;
-  margin-bottom:10px;
+  font-size:15px;
+  margin-bottom:8px;
 }
 
 /* ========================= */
@@ -64,23 +68,25 @@ body{
 /* ========================= */
 
 .campo{
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .campo label{
   display:block;
-  font-size:12px;
-  margin-bottom:4px;
+  font-size:11px;
+  margin-bottom:3px;
+  font-weight:600;
 }
 
 .campo input,
 .campo select{
   width:100%;
-  height:48px;
+  height:42px;
   border:1px solid #d1d5db;
-  border-radius:10px;
-  padding:10px;
-  font-size:16px;
+  border-radius:8px;
+  padding:8px;
+  font-size:14px;
+  background:#fff;
 }
 
 /* ========================= */
@@ -89,19 +95,19 @@ body{
 
 .resultado{
   background:#f9fafb;
-  border-radius:10px;
-  padding:10px;
-  margin-top:8px;
+  border-radius:8px;
+  padding:8px;
+  margin-top:6px;
 }
 
 .resultado span{
   display:block;
-  font-size:12px;
+  font-size:11px;
   margin-bottom:2px;
 }
 
 .resultado strong{
-  font-size:18px;
+  font-size:15px;
 }
 
 /* ========================= */
@@ -109,12 +115,18 @@ body{
 /* ========================= */
 
 .comissao{
-  margin-top:12px;
-  text-align:center;
+  margin-top:10px;
   background:#111827;
   color:#fff;
-  padding:12px;
   border-radius:12px;
+  padding:12px;
+  text-align:center;
+}
+
+.comissao span{
+  display:block;
+  font-size:12px;
+  margin-bottom:4px;
 }
 
 .comissao strong{
@@ -128,18 +140,19 @@ body{
 .botoes{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
+  gap:8px;
+  margin-top:10px;
 }
 
 .botoes button{
-  height:48px;
+  height:44px;
   border:none;
   border-radius:10px;
   background:#111827;
   color:#fff;
-  font-size:14px;
+  font-size:13px;
   font-weight:700;
+  cursor:pointer;
 }
 
 /* ========================= */
@@ -149,38 +162,65 @@ body{
 @media(max-width:900px){
 
   body{
-    padding:8px;
+    padding:6px;
   }
 
   .grid{
-    grid-template-columns:1fr;
-    gap:8px;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
   }
 
   .card{
-    padding:10px;
+    padding:8px;
+  }
+
+  .card h2{
+    font-size:13px;
+    margin-bottom:6px;
   }
 
   .campo{
-    margin-bottom:8px;
+    margin-bottom:6px;
+  }
+
+  .campo label{
+    font-size:10px;
   }
 
   .campo input,
   .campo select{
-    height:52px;
-    font-size:16px;
+    height:44px;
+    font-size:14px;
+    padding:6px;
   }
 
   .resultado{
-    padding:8px;
+    padding:6px;
+  }
+
+  .resultado span{
+    font-size:10px;
   }
 
   .resultado strong{
-    font-size:16px;
+    font-size:13px;
+  }
+
+  .comissao{
+    padding:10px;
+  }
+
+  .comissao strong{
+    font-size:18px;
   }
 
   .botoes{
-    gap:8px;
+    gap:6px;
+  }
+
+  .botoes button{
+    height:42px;
+    font-size:12px;
   }
 
 }
