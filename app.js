@@ -25,7 +25,9 @@ function calcularTabela(km, valorKm, media, diesel){
     km * valorKm;
 
   const litros =
-    km / media;
+    media > 0
+      ? km / media
+      : 0;
 
   const custoDiesel =
     litros * diesel;
@@ -179,6 +181,9 @@ function limparCampos(){
 
   });
 
+  document.getElementById('veiculoMotorista').selectedIndex = 0;
+  document.getElementById('veiculoCliente').selectedIndex = 0;
+
   calcularTudo();
 
 }
@@ -227,54 +232,41 @@ function salvarCotacao(){
 }
 
 /* ========================= */
-/* WHATSAPP */
+/* WHATSAPP MOTORISTA */
 /* ========================= */
 
-function enviarWhatsapp(){
+function whatsappMotorista(){
 
   calcularTudo();
 
-  const texto = `
+  const texto = `🚚 FRETE MOTORISTA
 
-🚛 *COTAÇÃO DE FRETE*
+KM: ${document.getElementById('kmMotorista').value}
 
-━━━━━━━━━━
+Valor:
+${document.getElementById('freteMotorista').innerText}`;
 
-🚚 MOTORISTA
+  const url =
+    `https://wa.me/?text=${encodeURIComponent(texto)}`;
 
-📍 KM:
-${document.getElementById('kmMotorista').value}
+  window.open(url, '_blank');
 
-💰 FRETE:
-${document.getElementById('freteMotorista').innerText}
+}
 
-⛽ DIESEL:
-${document.getElementById('custoMotorista').innerText}
+/* ========================= */
+/* WHATSAPP CLIENTE */
+/* ========================= */
 
-━━━━━━━━━━
+function whatsappCliente(){
 
-💵 CLIENTE
+  calcularTudo();
 
-📍 KM:
-${document.getElementById('kmCliente').value}
+  const texto = `💰 COTAÇÃO FRETE
 
-💰 FRETE:
-${document.getElementById('freteCliente').innerText}
+KM: ${document.getElementById('kmCliente').value}
 
-⛽ DIESEL:
-${document.getElementById('custoCliente').innerText}
-
-━━━━━━━━━━
-
-📊 COMISSÃO EMPRESA
-
-${document.getElementById('comissaoEmpresa').innerText}
-
-━━━━━━━━━━
-
-Sistema Prime
-
-`;
+Valor:
+${document.getElementById('freteCliente').innerText}`;
 
   const url =
     `https://wa.me/?text=${encodeURIComponent(texto)}`;
@@ -344,8 +336,11 @@ window.onload = function(){
       /* COPIAR VEICULO */
       /* ========================= */
 
-      document.getElementById('veiculoCliente').value =
+      const veiculoSelecionado =
         document.getElementById('veiculoMotorista').value;
+
+      document.getElementById('veiculoCliente').value =
+        veiculoSelecionado;
 
       /* ========================= */
       /* CALCULAR */
