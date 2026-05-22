@@ -1,9 +1,9 @@
 /* ========================= */
-/* PLANILHA GOOGLE */
+/* URL PLANILHA */
 /* ========================= */
 
 const urlPlanilha =
-'https://docs.google.com/spreadsheets/d/1eZH_9cMXeTlo5IJ9ybsC1l-gip-XGlaauQ2JNQy7DPA/edit?usp=sharing';
+'https://opensheet.elk.sh/1eZH_9cMXeTlo5IJ9ybsC1l-gip-XGlaauQ2JNQy7DPA/PRIME-FRETE';
 
 /* ========================= */
 /* MOEDA */
@@ -34,20 +34,29 @@ async function carregarPlanilha(){
     const dados =
       await resposta.json();
 
+    console.log(dados);
+
     if(dados.length > 0){
 
+      const linha = dados[0];
+
       document.getElementById('dieselMotorista').value =
-  Number(dados[0].dieselMotorista || 0);
+        parseFloat(
+          linha.dieselMotorista
+        ) || 0;
 
       document.getElementById('dieselCliente').value =
-  Number(dados[0].dieselCliente || 0);
+        parseFloat(
+          linha.dieselCliente
+        ) || 0;
+
       calcularTudo();
 
     }
 
   }catch(erro){
 
-    console.log('Erro planilha');
+    console.log(erro);
 
   }
 
@@ -84,9 +93,7 @@ function calcularTudo(){
       ? km / media
       : 0;
 
-  /* ========================= */
   /* MOTORISTA */
-  /* ========================= */
 
   const custoMotorista =
     litros * dieselMotorista;
@@ -101,9 +108,7 @@ function calcularTudo(){
       ? freteMotorista / km
       : 0;
 
-  /* ========================= */
   /* CLIENTE */
-  /* ========================= */
 
   const custoCliente =
     litros * dieselCliente;
@@ -118,9 +123,7 @@ function calcularTudo(){
       ? freteCliente / km
       : 0;
 
-  /* ========================= */
   /* RESULTADOS */
-  /* ========================= */
 
   document.getElementById('valorKmMotorista').value =
     valorKmMotorista.toFixed(2);
@@ -145,18 +148,6 @@ function calcularTudo(){
 
   document.getElementById('comissaoEmpresa').innerText =
     moeda(comissao);
-
-}
-
-/* ========================= */
-/* LIMPAR */
-/* ========================= */
-
-function limparCampos(){
-
-  document.getElementById('kmTotal').value='';
-
-  calcularTudo();
 
 }
 
@@ -196,8 +187,6 @@ function salvarCotacao(){
   );
 
   carregarHistorico();
-
-  limparCampos();
 
 }
 
