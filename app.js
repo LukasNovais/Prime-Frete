@@ -2,7 +2,9 @@
 /* ARQUIVO: app.js */
 /* ========================= */
 
+/* ========================= */
 /* FORMATAR MOEDA */
+/* ========================= */
 
 function moeda(valor){
 
@@ -29,7 +31,9 @@ function calcularTabela(km, valorKm, media, diesel){
     litros * diesel;
 
   const percentual =
-    (custoDiesel / frete) * 100;
+    frete > 0
+      ? (custoDiesel / frete) * 100
+      : 0;
 
   return {
 
@@ -196,6 +200,9 @@ function salvarCotacao(){
     dieselMotorista:
       document.getElementById('dieselMotorista').value,
 
+    veiculoMotorista:
+      document.getElementById('veiculoMotorista').value,
+
     kmCliente:
       document.getElementById('kmCliente').value,
 
@@ -203,7 +210,10 @@ function salvarCotacao(){
       document.getElementById('valorKmCliente').value,
 
     dieselCliente:
-      document.getElementById('dieselCliente').value
+      document.getElementById('dieselCliente').value,
+
+    veiculoCliente:
+      document.getElementById('veiculoCliente').value
 
   };
 
@@ -295,6 +305,9 @@ window.onload = function(){
     document.getElementById('dieselMotorista').value =
       dados.dieselMotorista;
 
+    document.getElementById('veiculoMotorista').value =
+      dados.veiculoMotorista;
+
     document.getElementById('kmCliente').value =
       dados.kmCliente;
 
@@ -303,6 +316,9 @@ window.onload = function(){
 
     document.getElementById('dieselCliente').value =
       dados.dieselCliente;
+
+    document.getElementById('veiculoCliente').value =
+      dados.veiculoCliente;
 
   }
 
@@ -316,6 +332,24 @@ window.onload = function(){
   campos.forEach(campo => {
 
     campo.addEventListener('input', () => {
+
+      /* ========================= */
+      /* COPIAR KM */
+      /* ========================= */
+
+      document.getElementById('kmCliente').value =
+        document.getElementById('kmMotorista').value;
+
+      /* ========================= */
+      /* COPIAR VEICULO */
+      /* ========================= */
+
+      document.getElementById('veiculoCliente').value =
+        document.getElementById('veiculoMotorista').value;
+
+      /* ========================= */
+      /* CALCULAR */
+      /* ========================= */
 
       calcularTudo();
 
