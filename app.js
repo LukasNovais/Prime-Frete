@@ -21,6 +21,23 @@ function moeda(valor){
 }
 
 /* ========================= */
+/* CONVERTER NUMERO */
+/* ========================= */
+
+function numero(valor){
+
+  if(!valor) return 0;
+
+  return parseFloat(
+    String(valor)
+      .replace(',','.')
+      .replace('R$','')
+      .trim()
+  ) || 0;
+
+}
+
+/* ========================= */
 /* CARREGAR PLANILHA */
 /* ========================= */
 
@@ -41,32 +58,38 @@ async function carregarPlanilha(){
       const linha = dados[0];
 
       /* ========================= */
-      /* TENTAR VARIOS FORMATOS */
+      /* PEGAR DIESEL */
       /* ========================= */
 
       const dieselMotorista =
-        parseFloat(
+        numero(
+
           linha.dieselMotorista ||
           linha.DIESELMOTORISTA ||
           linha.motorista ||
-          linha.MOTORISTA ||
-          0
+          linha.MOTORISTA
+
         );
 
       const dieselCliente =
-        parseFloat(
+        numero(
+
           linha.dieselCliente ||
           linha.DIESELCLIENTE ||
           linha.cliente ||
-          linha.CLIENTE ||
-          0
+          linha.CLIENTE
+
         );
 
+      /* ========================= */
+      /* MANTER CASAS DECIMAIS */
+      /* ========================= */
+
       document.getElementById('dieselMotorista').value =
-        dieselMotorista;
+        dieselMotorista.toFixed(2);
 
       document.getElementById('dieselCliente').value =
-        dieselCliente;
+        dieselCliente.toFixed(2);
 
       calcularTudo();
 
@@ -87,24 +110,24 @@ async function carregarPlanilha(){
 function calcularTudo(){
 
   const km =
-    Number(
+    numero(
       document.getElementById('kmTotal').value
     );
 
   const media =
-    Number(
+    numero(
       document.getElementById('tipoVeiculo').value
     );
 
   const dieselMotorista =
-    parseFloat(
+    numero(
       document.getElementById('dieselMotorista').value
-    ) || 0;
+    );
 
   const dieselCliente =
-    parseFloat(
+    numero(
       document.getElementById('dieselCliente').value
-    ) || 0;
+    );
 
   const litros =
     media > 0
@@ -240,7 +263,7 @@ function excluirHistorico(index){
 }
 
 /* ========================= */
-/* HISTÓRICO */
+/* HISTORICO */
 /* ========================= */
 
 function carregarHistorico(){
@@ -264,7 +287,6 @@ function carregarHistorico(){
         <div style="
           display:flex;
           justify-content:space-between;
-          align-items:flex-start;
           gap:10px;
         ">
 
@@ -283,16 +305,19 @@ function carregarHistorico(){
           </div>
 
           <button
+
             onclick="excluirHistorico(${index})"
+
             style="
-              background:#c62828;
-              color:#fff;
-              border:none;
-              border-radius:6px;
               width:28px;
               height:28px;
+              border:none;
+              border-radius:6px;
+              background:#c62828;
+              color:#fff;
               font-weight:bold;
             "
+
           >
 
             X
