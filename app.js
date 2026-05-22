@@ -2,71 +2,103 @@
 /* ARQUIVO: app.js */
 /* ========================= */
 
-/* FORMATAR DINHEIRO */
+/* FORMATAR MOEDA */
 
 function moeda(valor){
 
   return valor.toLocaleString('pt-BR', {
-    style:'currency',
-    currency:'BRL'
+    style: 'currency',
+    currency: 'BRL'
   });
 
 }
 
+/* ========================= */
 /* CALCULAR TABELA */
+/* ========================= */
 
 function calcularTabela(km, valorKm, media, diesel){
 
-  const frete = km * valorKm;
+  const frete =
+    km * valorKm;
 
-  const litros = km / media;
+  const litros =
+    km / media;
 
-  const custoDiesel = litros * diesel;
+  const custoDiesel =
+    litros * diesel;
 
-  const percentual = (custoDiesel / frete) * 100;
+  const percentual =
+    (custoDiesel / frete) * 100;
 
   return {
+
     frete,
     litros,
     custoDiesel,
     percentual
+
   };
 
 }
 
+/* ========================= */
 /* CALCULAR TUDO */
+/* ========================= */
 
 function calcularTudo(){
 
+  /* ========================= */
   /* MOTORISTA */
+  /* ========================= */
 
   const kmMotorista =
-    Number(document.getElementById('kmMotorista').value);
+    Number(
+      document.getElementById('kmMotorista').value
+    );
 
   const valorKmMotorista =
-    Number(document.getElementById('valorKmMotorista').value);
+    Number(
+      document.getElementById('valorKmMotorista').value
+    );
 
   const mediaMotorista =
-    Number(document.getElementById('veiculoMotorista').value);
+    Number(
+      document.getElementById('veiculoMotorista').value
+    );
 
   const dieselMotorista =
-    Number(document.getElementById('dieselMotorista').value);
+    Number(
+      document.getElementById('dieselMotorista').value
+    );
 
+  /* ========================= */
   /* CLIENTE */
+  /* ========================= */
 
   const kmCliente =
-    Number(document.getElementById('kmCliente').value);
+    Number(
+      document.getElementById('kmCliente').value
+    );
 
   const valorKmCliente =
-    Number(document.getElementById('valorKmCliente').value);
+    Number(
+      document.getElementById('valorKmCliente').value
+    );
 
   const mediaCliente =
-    Number(document.getElementById('veiculoCliente').value);
+    Number(
+      document.getElementById('veiculoCliente').value
+    );
 
   const dieselCliente =
-    Number(document.getElementById('dieselCliente').value);
+    Number(
+      document.getElementById('dieselCliente').value
+    );
 
+  /* ========================= */
   /* CALCULOS */
+  /* ========================= */
 
   const motorista =
     calcularTabela(
@@ -84,7 +116,9 @@ function calcularTudo(){
       dieselCliente
     );
 
+  /* ========================= */
   /* RESULTADOS MOTORISTA */
+  /* ========================= */
 
   document.getElementById('freteMotorista').innerText =
     moeda(motorista.frete);
@@ -98,7 +132,9 @@ function calcularTudo(){
   document.getElementById('percentualMotorista').innerText =
     motorista.percentual.toFixed(1) + '%';
 
+  /* ========================= */
   /* RESULTADOS CLIENTE */
+  /* ========================= */
 
   document.getElementById('freteCliente').innerText =
     moeda(cliente.frete);
@@ -112,7 +148,9 @@ function calcularTudo(){
   document.getElementById('percentualCliente').innerText =
     cliente.percentual.toFixed(1) + '%';
 
+  /* ========================= */
   /* COMISSÃO */
+  /* ========================= */
 
   const comissao =
     cliente.frete - motorista.frete;
@@ -122,7 +160,9 @@ function calcularTudo(){
 
 }
 
-/* LIMPAR */
+/* ========================= */
+/* LIMPAR CAMPOS */
+/* ========================= */
 
 function limparCampos(){
 
@@ -130,12 +170,18 @@ function limparCampos(){
     document.querySelectorAll('input');
 
   inputs.forEach(input => {
+
     input.value = '';
+
   });
+
+  calcularTudo();
 
 }
 
-/* SALVAR */
+/* ========================= */
+/* SALVAR COTAÇÃO */
+/* ========================= */
 
 function salvarCotacao(){
 
@@ -166,11 +212,13 @@ function salvarCotacao(){
     JSON.stringify(dados)
   );
 
-  alert('Cotação salva!');
+  alert('Cotação salva com sucesso!');
 
 }
 
+/* ========================= */
 /* WHATSAPP */
+/* ========================= */
 
 function enviarWhatsapp(){
 
@@ -180,24 +228,41 @@ function enviarWhatsapp(){
 
 🚛 *COTAÇÃO DE FRETE*
 
-📍 KM MOTORISTA:
+━━━━━━━━━━
+
+🚚 MOTORISTA
+
+📍 KM:
 ${document.getElementById('kmMotorista').value}
 
-💰 FRETE MOTORISTA:
+💰 FRETE:
 ${document.getElementById('freteMotorista').innerText}
 
+⛽ DIESEL:
+${document.getElementById('custoMotorista').innerText}
+
 ━━━━━━━━━━
 
-📍 KM CLIENTE:
+💵 CLIENTE
+
+📍 KM:
 ${document.getElementById('kmCliente').value}
 
-💵 FRETE CLIENTE:
+💰 FRETE:
 ${document.getElementById('freteCliente').innerText}
+
+⛽ DIESEL:
+${document.getElementById('custoCliente').innerText}
 
 ━━━━━━━━━━
 
-📊 COMISSÃO:
+📊 COMISSÃO EMPRESA
+
 ${document.getElementById('comissaoEmpresa').innerText}
+
+━━━━━━━━━━
+
+Sistema Prime
 
 `;
 
@@ -208,12 +273,16 @@ ${document.getElementById('comissaoEmpresa').innerText}
 
 }
 
+/* ========================= */
 /* CARREGAR DADOS */
+/* ========================= */
 
 window.onload = function(){
 
   const dados =
-    JSON.parse(localStorage.getItem('cotacaoPrime'));
+    JSON.parse(
+      localStorage.getItem('cotacaoPrime')
+    );
 
   if(dados){
 
@@ -234,26 +303,29 @@ window.onload = function(){
 
     document.getElementById('dieselCliente').value =
       dados.dieselCliente;
-    
+
   }
 
-    /* ========================= */
-/* CALCULO AUTOMATICO */
-/* ========================= */
+  /* ========================= */
+  /* CALCULO AUTOMATICO */
+  /* ========================= */
 
-const campos = document.querySelectorAll('input, select');
+  const campos =
+    document.querySelectorAll('input, select');
 
-campos.forEach(campo => {
+  campos.forEach(campo => {
 
-  campo.addEventListener('input', () => {
+    campo.addEventListener('input', () => {
 
-    calcularTudo();
+      calcularTudo();
+
+    });
 
   });
 
-});
-
-/* CALCULAR AO ABRIR */
+  /* ========================= */
+  /* CALCULAR AO ABRIR */
+  /* ========================= */
 
   calcularTudo();
 
