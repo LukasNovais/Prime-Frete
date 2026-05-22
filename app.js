@@ -3,7 +3,7 @@
 /* ========================= */
 
 const urlPlanilha =
-'https://opensheet.elk.sh/1eZH_9cMXeTlo5IJ9ybsC1l-gip-XGlaauQ2JNQy7DPA/PRIME-FRETE';
+'https://docs.google.com/spreadsheets/d/1eZH_9cMXeTlo5IJ9ybsC1l-gip-XGlaauQ2JNQy7DPA/edit?usp=sharing';
 
 /* ========================= */
 /* MOEDA */
