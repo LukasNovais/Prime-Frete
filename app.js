@@ -1,22 +1,73 @@
+/* ========================= */
+/* PLANILHA GOOGLE */
+/* ========================= */
+
+const urlPlanilha =
+'https://opensheet.elk.sh/1eZH_9cMXeTlo5IJ9ybsC1l-gip-XGlaauQ2JNQy7DPA/PRIME-FRETE';
+
+/* ========================= */
+/* MOEDA */
+/* ========================= */
+
 function moeda(valor){
 
   return valor.toLocaleString('pt-BR',{
+
     style:'currency',
     currency:'BRL'
+
   });
 
 }
+
+/* ========================= */
+/* CARREGAR PLANILHA */
+/* ========================= */
+
+async function carregarPlanilha(){
+
+  try{
+
+    const resposta =
+      await fetch(urlPlanilha);
+
+    const dados =
+      await resposta.json();
+
+    if(dados.length > 0){
+
+      document.getElementById('dieselMotorista').value =
+        Number(dados[0].A2 || 0);
+
+      document.getElementById('dieselCliente').value =
+        Number(dados[0].B2 || 0);
+
+      calcularTudo();
+
+    }
+
+  }catch(erro){
+
+    console.log('Erro planilha');
+
+  }
+
+}
+
+/* ========================= */
+/* CALCULAR */
+/* ========================= */
 
 function calcularTudo(){
 
   const km =
     Number(
-      document.getElementById('kmMotorista').value
+      document.getElementById('kmTotal').value
     );
 
   const media =
     Number(
-      document.getElementById('veiculoMotorista').value
+      document.getElementById('tipoVeiculo').value
     );
 
   const dieselMotorista =
@@ -29,18 +80,14 @@ function calcularTudo(){
       document.getElementById('dieselCliente').value
     );
 
-  document.getElementById('kmCliente').value =
-    km;
-
-  document.getElementById('veiculoCliente').selectedIndex =
-    document.getElementById('veiculoMotorista').selectedIndex;
-
   const litros =
     media > 0
       ? km / media
       : 0;
 
+  /* ========================= */
   /* MOTORISTA */
+  /* ========================= */
 
   const custoMotorista =
     litros * dieselMotorista;
@@ -55,7 +102,9 @@ function calcularTudo(){
       ? freteMotorista / km
       : 0;
 
+  /* ========================= */
   /* CLIENTE */
+  /* ========================= */
 
   const custoCliente =
     litros * dieselCliente;
@@ -70,7 +119,9 @@ function calcularTudo(){
       ? freteCliente / km
       : 0;
 
+  /* ========================= */
   /* RESULTADOS */
+  /* ========================= */
 
   document.getElementById('valorKmMotorista').value =
     valorKmMotorista.toFixed(2);
@@ -98,19 +149,21 @@ function calcularTudo(){
 
 }
 
+/* ========================= */
+/* LIMPAR */
+/* ========================= */
+
 function limparCampos(){
 
-  document
-    .querySelectorAll('input')
-    .forEach(input=>{
-
-      input.value='';
-
-    });
+  document.getElementById('kmTotal').value='';
 
   calcularTudo();
 
 }
+
+/* ========================= */
+/* SALVAR */
+/* ========================= */
 
 function salvarCotacao(){
 
@@ -125,7 +178,7 @@ function salvarCotacao(){
       new Date().toLocaleString(),
 
     km:
-      document.getElementById('kmMotorista').value,
+      document.getElementById('kmTotal').value,
 
     motorista:
       document.getElementById('freteMotorista').innerText,
@@ -136,8 +189,11 @@ function salvarCotacao(){
   });
 
   localStorage.setItem(
+
     'historicoPrime',
+
     JSON.stringify(historico)
+
   );
 
   carregarHistorico();
@@ -145,6 +201,10 @@ function salvarCotacao(){
   limparCampos();
 
 }
+
+/* ========================= */
+/* HISTÓRICO */
+/* ========================= */
 
 function carregarHistorico(){
 
@@ -182,12 +242,16 @@ function carregarHistorico(){
 
 }
 
+/* ========================= */
+/* COMPARTILHAR */
+/* ========================= */
+
 function compartilharMotorista(){
 
   const texto =
 `🚚 FRETE MOTORISTA
 
-KM: ${document.getElementById('kmMotorista').value}
+KM: ${document.getElementById('kmTotal').value}
 
 Valor:
 ${document.getElementById('freteMotorista').innerText}`;
@@ -209,7 +273,7 @@ function compartilharCliente(){
   const texto =
 `💰 COTAÇÃO FRETE
 
-KM: ${document.getElementById('kmCliente').value}
+KM: ${document.getElementById('kmTotal').value}
 
 Valor:
 ${document.getElementById('freteCliente').innerText}`;
@@ -225,6 +289,10 @@ ${document.getElementById('freteCliente').innerText}`;
   }
 
 }
+
+/* ========================= */
+/* EVENTOS */
+/* ========================= */
 
 window.onload = function(){
 
@@ -242,6 +310,8 @@ window.onload = function(){
   });
 
   carregarHistorico();
+
+  carregarPlanilha();
 
   calcularTudo();
 
