@@ -1,0 +1,140 @@
+/* ========================= */
+/* ARQUIVO: style.css */
+/* ========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial;
+}
+
+body{
+  background:#111827;
+  color:white;
+  padding:15px;
+}
+
+.container{
+  max-width:1400px;
+  margin:auto;
+}
+
+.topo{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.topo h1{
+  font-size:32px;
+}
+
+.topo p{
+  color:#9ca3af;
+  margin-top:5px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.card{
+  background:#1f2937;
+  border-radius:14px;
+  padding:18px;
+}
+
+.card h2{
+  margin-bottom:18px;
+  font-size:20px;
+}
+
+.campo{
+  margin-bottom:15px;
+}
+
+.campo label{
+  display:block;
+  margin-bottom:6px;
+  color:#d1d5db;
+  font-size:14px;
+}
+
+.campo input,
+.campo select{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#374151;
+  color:white;
+  font-size:16px;
+}
+
+.resultado{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  background:#111827;
+
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.resultado span{
+  color:#d1d5db;
+}
+
+.resultado strong{
+  font-size:18px;
+}
+
+.comissao{
+  margin-top:15px;
+}
+
+.destaque{
+  background:#2563eb;
+}
+
+.botoes{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+
+  margin-top:20px;
+}
+
+.botoes button{
+  padding:14px;
+  border:none;
+  border-radius:12px;
+
+  background:#2563eb;
+  color:white;
+
+  font-size:15px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+.botoes button:hover{
+  opacity:0.9;
+}
+
+@media(max-width:900px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .botoes{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
