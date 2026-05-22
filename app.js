@@ -234,7 +234,27 @@ window.onload = function(){
 
     document.getElementById('dieselCliente').value =
       dados.dieselCliente;
-
+    
   }
+
+    /* ========================= */
+/* CALCULO AUTOMATICO */
+/* ========================= */
+
+const campos = document.querySelectorAll('input, select');
+
+campos.forEach(campo => {
+
+  campo.addEventListener('input', () => {
+
+    calcularTudo();
+
+  });
+
+});
+
+/* CALCULAR AO ABRIR */
+
+  calcularTudo();
 
 }
