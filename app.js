@@ -40,15 +40,33 @@ async function carregarPlanilha(){
 
       const linha = dados[0];
 
-      document.getElementById('dieselMotorista').value =
+      /* ========================= */
+      /* TENTAR VARIOS FORMATOS */
+      /* ========================= */
+
+      const dieselMotorista =
         parseFloat(
-          linha.dieselMotorista
-        ) || 0;
+          linha.dieselMotorista ||
+          linha.DIESELMOTORISTA ||
+          linha.motorista ||
+          linha.MOTORISTA ||
+          0
+        );
+
+      const dieselCliente =
+        parseFloat(
+          linha.dieselCliente ||
+          linha.DIESELCLIENTE ||
+          linha.cliente ||
+          linha.CLIENTE ||
+          0
+        );
+
+      document.getElementById('dieselMotorista').value =
+        dieselMotorista;
 
       document.getElementById('dieselCliente').value =
-        parseFloat(
-          linha.dieselCliente
-        ) || 0;
+        dieselCliente;
 
       calcularTudo();
 
@@ -79,21 +97,23 @@ function calcularTudo(){
     );
 
   const dieselMotorista =
-    Number(
+    parseFloat(
       document.getElementById('dieselMotorista').value
-    );
+    ) || 0;
 
   const dieselCliente =
-    Number(
+    parseFloat(
       document.getElementById('dieselCliente').value
-    );
+    ) || 0;
 
   const litros =
     media > 0
       ? km / media
       : 0;
 
+  /* ========================= */
   /* MOTORISTA */
+  /* ========================= */
 
   const custoMotorista =
     litros * dieselMotorista;
@@ -108,7 +128,9 @@ function calcularTudo(){
       ? freteMotorista / km
       : 0;
 
+  /* ========================= */
   /* CLIENTE */
+  /* ========================= */
 
   const custoCliente =
     litros * dieselCliente;
@@ -123,7 +145,9 @@ function calcularTudo(){
       ? freteCliente / km
       : 0;
 
+  /* ========================= */
   /* RESULTADOS */
+  /* ========================= */
 
   document.getElementById('valorKmMotorista').value =
     valorKmMotorista.toFixed(2);
@@ -191,6 +215,31 @@ function salvarCotacao(){
 }
 
 /* ========================= */
+/* EXCLUIR ITEM */
+/* ========================= */
+
+function excluirHistorico(index){
+
+  const historico =
+    JSON.parse(
+      localStorage.getItem('historicoPrime')
+    ) || [];
+
+  historico.splice(index,1);
+
+  localStorage.setItem(
+
+    'historicoPrime',
+
+    JSON.stringify(historico)
+
+  );
+
+  carregarHistorico();
+
+}
+
+/* ========================= */
 /* HISTÓRICO */
 /* ========================= */
 
@@ -206,21 +255,51 @@ function carregarHistorico(){
       localStorage.getItem('historicoPrime')
     ) || [];
 
-  historico.forEach(item=>{
+  historico.forEach((item,index)=>{
 
     lista.innerHTML += `
 
       <div class="itemHistorico">
 
-        <strong>${item.data}</strong><br>
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:flex-start;
+          gap:10px;
+        ">
 
-        KM: ${item.km}<br>
+          <div>
 
-        Motorista:
-        ${item.motorista}<br>
+            <strong>${item.data}</strong><br>
 
-        Cliente:
-        ${item.cliente}
+            KM: ${item.km}<br>
+
+            Motorista:
+            ${item.motorista}<br>
+
+            Cliente:
+            ${item.cliente}
+
+          </div>
+
+          <button
+            onclick="excluirHistorico(${index})"
+            style="
+              background:#c62828;
+              color:#fff;
+              border:none;
+              border-radius:6px;
+              width:28px;
+              height:28px;
+              font-weight:bold;
+            "
+          >
+
+            X
+
+          </button>
+
+        </div>
 
       </div>
 
